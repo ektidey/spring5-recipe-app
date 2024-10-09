@@ -1,5 +1,7 @@
 package guru.springframework.spring5recipeapp.services;
 
+import guru.springframework.spring5recipeapp.converters.RecipeCommandToRecipe;
+import guru.springframework.spring5recipeapp.converters.RecipeToRecipeCommand;
 import guru.springframework.spring5recipeapp.domain.Recipe;
 import guru.springframework.spring5recipeapp.repositories.RecipeRepository;
 import org.junit.jupiter.api.AfterEach;
@@ -22,12 +24,16 @@ class RecipeServiceImplTest {
     RecipeServiceImpl recipeService;
     @Mock
     RecipeRepository recipeRepository;
+    @Mock
+    RecipeCommandToRecipe recipeCommandToRecipe;
+    @Mock
+    RecipeToRecipeCommand recipeToRecipeCommand;
     private AutoCloseable openMocks;
 
     @BeforeEach
     void setUp() {
         openMocks = MockitoAnnotations.openMocks(this);
-        recipeService = new RecipeServiceImpl(recipeRepository);
+        recipeService = new RecipeServiceImpl(recipeRepository, recipeCommandToRecipe, recipeToRecipeCommand);
     }
 
     @AfterEach
