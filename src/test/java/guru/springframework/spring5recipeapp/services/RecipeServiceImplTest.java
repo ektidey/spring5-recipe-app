@@ -1,5 +1,6 @@
 package guru.springframework.spring5recipeapp.services;
 
+import guru.springframework.spring5recipeapp.commands.RecipeCommand;
 import guru.springframework.spring5recipeapp.converters.RecipeCommandToRecipe;
 import guru.springframework.spring5recipeapp.converters.RecipeToRecipeCommand;
 import guru.springframework.spring5recipeapp.domain.Recipe;
@@ -42,7 +43,7 @@ class RecipeServiceImplTest {
     }
 
     @Test
-    void getRecipes() {
+    public void getRecipes() {
         Recipe recipe = new Recipe();
         HashSet<Recipe> recipeData = new HashSet<>();
         recipeData.add(recipe);
@@ -56,7 +57,7 @@ class RecipeServiceImplTest {
     }
 
     @Test
-    void getRecipeById() {
+    public void getRecipeById() {
         Recipe recipe = new Recipe();
         recipe.setId(1L);
 
@@ -66,6 +67,35 @@ class RecipeServiceImplTest {
         Recipe recipeReturned = recipeService.findById(1L);
 
         assertNotNull(recipeReturned, "Null recipe returned");
+        verify(recipeRepository, times(1)).findById(anyLong());
+        verify(recipeRepository, never()).findAll();
+    }
+
+    @Test
+    public void deleteRecipeById() {
+        Long idToDelete = 2L;
+        recipeService.deleteById(idToDelete);
+
+        verify(recipeRepository, times(1))
+            .deleteById(anyLong());
+    }
+
+    @Test
+    public void getRecipeCommandById() {
+        Recipe recipe = new Recipe();
+        recipe.setId(1L);
+
+        when(recipeRepository.findById(anyLong()))
+            .thenReturn(Optional.of(recipe));
+
+        RecipeCommand recipeCommand = new RecipeCommand();
+        recipeCommand.setId(1L);
+
+        when(recipeToRecipeCommand.convert(any())).thenReturn(recipeCommand);
+
+        RecipeCommand commandById = recipeService.findCommandById(1L);
+
+        assertNotNull(commandById, "Null recipe command returned");
         verify(recipeRepository, times(1)).findById(anyLong());
         verify(recipeRepository, never()).findAll();
     }

@@ -56,4 +56,9 @@ public class Recipe {
         return this;
     }
 
+    @Override
+    public String toString() {
+        return "Recipe " + id + " (" + description + ")";
+    }
+
 }
