@@ -15,6 +15,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -36,7 +37,10 @@ class ImageControllerTest {
     public void setUp() {
         openMocks = MockitoAnnotations.openMocks(this);
         controller = new ImageController(imageService, recipeService);
-        mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
+        mockMvc = MockMvcBuilders
+            .standaloneSetup(controller)
+            .setControllerAdvice(new ControllerExceptionHandler())
+            .build();
     }
 
     @AfterEach
@@ -98,6 +102,13 @@ class ImageControllerTest {
         byte[] responseBytes = response.getContentAsByteArray();
         assertEquals(s.getBytes().length, responseBytes.length);
 
+    }
+
+    @Test
+    public void getImageNumberFormatException() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/recipe/asdf/recipeimage"))
+            .andExpect(MockMvcResultMatchers.status().isBadRequest())
+            .andExpect(MockMvcResultMatchers.view().name("400error"));
     }
 
 }
