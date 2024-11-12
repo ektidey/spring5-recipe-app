@@ -1,6 +1,10 @@
 # This config was automatically generated from your source code
 # Stacks detected: deps:java:.
 version: 2.1
+
+orbs:
+  codecov: codecov/codecov@4.0.1
+
 jobs:
   test-java:
     docker:
@@ -18,6 +22,7 @@ jobs:
           command: mvn verify
       - store_test_results:
           path: target/surefire-reports
+      - codecov/upload
       - save_cache:
           key: cache-{{ checksum "/tmp/CIRCLECI_CACHE_KEY" }}
           paths:
@@ -31,14 +36,11 @@ jobs:
       - run:
           name: deploy
           command: '#e.g. ./deploy.sh'
-orbs:
-  codecov: codecov/codecov@4.0.1
 
 workflows:
   build-and-test:
     jobs:
       - test-java
-      - codecov/upload
     # - deploy:
     #     requires:
     #       - test-java
