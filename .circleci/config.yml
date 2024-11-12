@@ -23,7 +23,7 @@ jobs:
       - store_test_results:
           path: target/surefire-reports
       - codecov/upload:
-          file: {{ coverage_report_filepath }}
+          slug: Estelle/spring5-recipe-app
       - save_cache:
           key: cache-{{ checksum "/tmp/CIRCLECI_CACHE_KEY" }}
           paths:
