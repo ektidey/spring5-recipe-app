@@ -22,7 +22,8 @@ jobs:
           command: mvn verify
       - store_test_results:
           path: target/surefire-reports
-      - codecov/upload
+      - codecov/upload:
+          file: {{ coverage_report_filepath }}
       - save_cache:
           key: cache-{{ checksum "/tmp/CIRCLECI_CACHE_KEY" }}
           paths:
