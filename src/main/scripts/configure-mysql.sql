@@ -2,17 +2,17 @@
 -- docker run --name mysqldb -p 3306:3306 -e MYSQL_ALLOW_EMPTY_PASSWORD=yes -d mysql
 
 -- connect to mysql and run as root user
---Create Databases
+-- Create Databases
 CREATE DATABASE sfg_dev;
 CREATE DATABASE sfg_prod;
 
---Create database service accounts
+-- Create database service accounts
 CREATE USER 'sfg_dev_user'@'localhost' IDENTIFIED BY 'guru';
 CREATE USER 'sfg_prod_user'@'localhost' IDENTIFIED BY 'guru';
 CREATE USER 'sfg_dev_user'@'%' IDENTIFIED BY 'guru';
 CREATE USER 'sfg_prod_user'@'%' IDENTIFIED BY 'guru';
 
---Database grants
+-- Database grants
 GRANT SELECT ON sfg_dev.* to 'sfg_dev_user'@'localhost';
 GRANT INSERT ON sfg_dev.* to 'sfg_dev_user'@'localhost';
 GRANT DELETE ON sfg_dev.* to 'sfg_dev_user'@'localhost';

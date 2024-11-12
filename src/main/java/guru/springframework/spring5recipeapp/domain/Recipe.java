@@ -21,7 +21,7 @@ public class Recipe {
     private String source;
     private String url;
 
-    @Lob
+    @Column(columnDefinition = "text")
     private String directions;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "recipe")

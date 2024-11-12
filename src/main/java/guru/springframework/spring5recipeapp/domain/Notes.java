@@ -15,7 +15,7 @@ public class Notes {
     @OneToOne
     private Recipe recipe;
 
-    @Lob
+    @Column(columnDefinition = "text")
     private String recipeNotes;
 
     @Override
