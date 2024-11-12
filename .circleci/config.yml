@@ -22,7 +22,9 @@ jobs:
           command: mvn verify
       - store_test_results:
           path: target/surefire-reports
-      - codecov/upload
+      - codecov/upload:
+          slug: "Estelle/spring5-recipe-app"
+          verbose: true
       - save_cache:
           key: cache-{{ checksum "/tmp/CIRCLECI_CACHE_KEY" }}
           paths:
